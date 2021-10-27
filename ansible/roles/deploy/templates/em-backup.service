@@ -9,3 +9,5 @@ StandardOutput=inherit
 StandardError=inherit
 Restart=always
 User=pi
+
+0 3,15 * * * 

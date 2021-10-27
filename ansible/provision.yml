@@ -1,5 +1,6 @@
 ---
 - name: "Setup RaspberryPi for EnergyMeter"
   hosts: "all" 
+  remote_user: "pi"
   roles:
     - provision

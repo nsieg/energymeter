@@ -1,5 +1,6 @@
 .vscode/
 /deployment/
+/setup/
 __pycache__/
 
 secrets.json

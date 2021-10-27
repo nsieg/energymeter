@@ -20,3 +20,10 @@
     regexp: "^tmpfs\t{{ path }}/logs"
     line: "tmpfs\t{{ path }}/logs\ttmpfs\tdefaults,size=50M\t0\t0"
   become: yes
+
+- name: "Mount data into RAM"
+  lineinfile:
+    path: "/etc/fstab"
+    regexp: "^tmpfs\t{{ path }}/data"
+    line: "tmpfs\t{{ path }}/data\ttmpfs\tdefaults,size=10M\t0\t0"
+  become: yes

@@ -4,7 +4,7 @@ Requires=em-backup.service
 
 [Timer]
 Unit=em-backup.service
-OnCalendar=*-*-* 03,15:00:00
+OnCalendar=*-*-* 0/4:00:00
 
 [Install]
 WantedBy=timers.target

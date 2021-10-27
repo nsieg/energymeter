@@ -1,0 +1,22 @@
+---
+- name: "Create directories"
+  file: 
+    state: directory 
+    path: "{{ item }}"
+    owner: "pi"
+    group: "pi"
+    mode: '755'
+  become: yes
+  loop:
+  - "{{ path }}"
+  - "{{ path }}/data"
+  - "{{ path }}/config"
+  - "{{ path }}/logs"
+  - "{{ path }}/setup"
+
+- name: "Mount logs into RAM"
+  lineinfile:
+    path: "/etc/fstab"
+    regexp: "^tmpfs\t{{ path }}/logs"
+    line: "tmpfs\t{{ path }}/logs\ttmpfs\tdefaults,size=50M\t0\t0"
+  become: yes

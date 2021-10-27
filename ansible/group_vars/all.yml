@@ -1,0 +1,14 @@
+influx:
+  install:
+    url: "https://dl.influxdata.com/influxdb/releases"
+    file: "influxdb2-2.0.7-arm64.deb"
+  url: "http://localhost"
+  port: "8086"
+  username: "nils"
+  bucket: "energy"
+  organization: "siegfried"
+
+path: "/opt/energymeter"
+
+shelly:
+  url: "http://192.168.168.151/meter/0"

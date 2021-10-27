@@ -1,0 +1,5 @@
+---
+- name: Check influx password
+  fail:
+    msg: Variable influx_password must be provided!
+  when: influx_password is not defined

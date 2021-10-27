@@ -1,0 +1,13 @@
+---
+- name: Load influx token
+  include_vars: "{{ path }}/setup/influx.json"
+
+- name: Check onedrive client id
+  fail:
+    msg: Variable onedrive_client_id must be provided!
+  when: onedrive_client_id is not defined
+
+- name: Check influx token
+  fail:
+    msg: Variable influx.token must be provided!
+  when: influx.token is not defined

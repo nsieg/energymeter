@@ -1,0 +1,42 @@
+@startuml Energymeter Data Flow
+
+participant "Shelly Plug S" as shelly
+
+box Energymeter
+participant "Ingest" as ingest
+participant "Shelly" as m_shelly
+participant "FileHandler" as file
+participant "Report" as report
+participant "Backup" as backup
+participant "InfluxHandler" as influx
+end box
+
+participant "InfluxDB" as influxdb
+participant "OneDrive" as onedrive
+participant "Telegram" as telegram
+
+== Every sensor read ==
+
+ingest -> file : Write values to file
+ingest -> influx : Upload into DB
+influx -> influxdb
+
+
+== Every minute ==
+m_shelly -> shelly : Poll Wh via API
+m_shelly -> file : Write values to file
+m_shelly -> influx : Upload into DB
+influx -> influxdb
+
+== Every night == 
+file <-- backup : Collect written files
+backup -> onedrive : Upload files
+
+== Every morning == 
+report -> influx : Get previous day production
+influx -> influxdb : Query DB
+report -> telegram : Send report message to chat
+
+
+
+@enduml

@@ -1,0 +1,33 @@
+---
+- name: "Delete files"
+  shell: "rm -f *"
+  args:
+    chdir: "{{ item }}"
+  loop:
+    - "{{ path }}"
+    - "{{ path }}/energymeter"
+    - "{{ path }}/config"
+    - "{{ path }}/data"
+    - "{{ path }}/logs"
+
+- name: "Copy scripts"
+  copy:
+    src: "{{ item }}"
+    dest: "{{ path }}/{{ item | basename }}"
+  with_fileglob:
+    - "*"
+    
+- name: "Copy config folder"
+  copy:
+    src: "config"
+    dest: "{{ path }}"
+
+- name: "Copy energymeter folder"
+  copy:
+    src: "energymeter"
+    dest: "{{ path }}"
+
+- name: "Install requirements"
+  pip:
+    requirements: "{{ path }}/requirements.txt"
+    executable: "/usr/bin/pip3"

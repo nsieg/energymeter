@@ -1,0 +1,5 @@
+.vscode/
+/deployment/
+__pycache__/
+
+secrets.json

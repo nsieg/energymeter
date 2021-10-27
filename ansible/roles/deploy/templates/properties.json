@@ -1,0 +1,21 @@
+{
+    "influx": {
+        "token": "{{ token_response_json['token'] }}",
+        "url": "{{ influx.url }}:{{ influx.port }}",
+        "org": "{{ influx.organization }}",
+        "bucket": "{{ influx.bucket }}"
+    },
+    "shelly": {
+        "url": "{{ shelly.url }}"
+    },
+    "backup": {
+        "dir": "{{ path }}/data"
+    },
+    "onedrive": {
+        "clientId": "{{ onedrive_client_id }}"
+    },
+    "telegram": {
+        "bot_id": "{{ telegram_bot_id }}",
+        "chat_id": "{{ telegram_chat_id }}"
+    }
+}

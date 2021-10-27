@@ -1,0 +1,10 @@
+[Unit]
+Description=em-report timer
+Requires=em-report.service
+
+[Timer]
+Unit=em-report.service
+OnCalendar=*-*-* 07:30:00
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,35 @@
+---
+- name: "Copy service files"
+  template:
+    src: "{{ item }}.service"
+    dest: "/etc/systemd/system/{{ item }}.service"
+    mode: 0755  
+  become: true
+  loop:
+    - em-sensor
+    - em-shelly
+    - em-backup
+    - em-report
+
+- name: "Copy timer files"
+  template:
+    src: "{{ item }}.timer"
+    dest: "/etc/systemd/system/{{ item }}.timer"
+    mode: 0755  
+  become: true
+  loop:
+    - em-shelly
+    - em-backup
+    - em-report
+
+- name: "Start & enable services"
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  become: true
+  loop:
+    - em-sensor.service
+    - em-shelly.timer
+    - em-backup.timer
+    - em-report.timer

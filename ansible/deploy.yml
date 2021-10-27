@@ -1,0 +1,5 @@
+---
+- name: "Setup RaspberryPi for EnergyMeter"
+  hosts: "all" 
+  roles:
+    - deploy

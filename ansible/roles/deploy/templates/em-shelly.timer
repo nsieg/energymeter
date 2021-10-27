@@ -1,0 +1,10 @@
+[Unit]
+Description=em-shelly timer
+Requires=em-shelly.service
+
+[Timer]
+Unit=em-shelly.service
+OnCalendar=*-*-* *:*:00
+
+[Install]
+WantedBy=timers.target

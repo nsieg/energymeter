@@ -1,0 +1,67 @@
+---
+- name: Install influx
+  block:
+    - name: "Download influx"
+      get_url: url="{{ influx.install.url }}/{{ influx.install.file }}" dest="{{ path }}/{{ influx.install.file }}"
+      
+    - name: "Install influx"
+      apt:
+        deb: "{{ path }}/{{ influx.install.file }}"
+        force: true
+      become: true
+
+    - name: "Remove installer"
+      ansible.builtin.file:
+        path: "{{ path }}/{{ influx.install.file }}"
+        state: absent
+
+    - name: "Enable influx service"
+      systemd:
+        name: "influxdb"
+        state: "started"
+        enabled: yes
+      become: true
+      ignore_errors: yes
+
+    - name: Wait for port 8086 to become open
+      wait_for:
+        port: "{{ influx.port }}"
+        delay: 5
+
+    - name: "Setup influxdb"
+      shell:
+        cmd: |
+          influx setup \
+          --force \
+          --org {{ influx.organization }} \
+          --bucket {{ influx.bucket }} \
+          --username {{ influx.username }} \
+          --password {{ influx_password }} \
+          --retention 0
+      ignore_errors: yes
+
+- name: "Get influx bucket id"
+  shell:
+    cmd: influx bucket list --name {{ influx.bucket }} --json
+  register: bucket_response
+
+- name: "Save influx bucket id"
+  set_fact: 
+    bucket_response_json: "{{ bucket_response.stdout | from_json }}"
+
+- name: "Create influx read/write token"
+  shell:
+    cmd: |
+      influx auth create --json \
+      --read-bucket {{ bucket_response_json[0]['id'] }} \
+      --write-bucket {{ bucket_response_json[0]['id'] }}
+  register: token_response
+
+- name: "Save read/write token"
+  set_fact: 
+    token_response_json: "{{ token_response.stdout | from_json }}"
+
+- name: "Save read/write token to config file"
+  template:
+    src: "influx.json"
+    dest: "{{ path }}/setup/influx.json"  

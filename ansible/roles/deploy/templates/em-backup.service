@@ -1,0 +1,11 @@
+[Unit]
+Description=em-backup
+
+[Service]
+ExecStart=/usr/bin/python3 -m main_backup
+WorkingDirectory={{ path }}/energymeter/backup
+Environment=PYTHONPATH={{ path }}
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi

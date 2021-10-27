@@ -1,0 +1,15 @@
+[Unit]
+Description=energymeter
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 -m main_ingest
+WorkingDirectory={{ path }}/energymeter/sensor
+Environment=PYTHONPATH={{ path }}
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

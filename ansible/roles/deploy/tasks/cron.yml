@@ -1,0 +1,19 @@
+---
+- name: "Poll Shelly should run every minute"
+  ansible.builtin.cron:
+    name: "Poll Shelly"
+    job: "cd {{ path }}/energymeter/shelly && PYTHONPATH={{ path }} python3 -m main_shelly"
+
+- name: "Run backup twice a day"
+  ansible.builtin.cron:
+    name: "Run backup"
+    job: "cd {{ path }}/energymeter/backup && PYTHONPATH={{ path }} python3 -m main_backup"
+    minute: "0"
+    hour: "3,15"
+
+- name: "Run report once a day"
+  ansible.builtin.cron:
+    name: "Run report"
+    job: "cd {{ path }}/energymeter/report && PYTHONPATH={{ path }} python3 -m main_daily"
+    minute: "30"
+    hour: "7"

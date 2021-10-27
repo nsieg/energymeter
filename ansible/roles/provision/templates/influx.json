@@ -1,0 +1,5 @@
+{
+    "influx": {
+        "token": "{{ token_response_json['token'] }}"
+    }
+}

@@ -22,9 +22,10 @@ class Exporter():
             |> range(start: today(), stop: now())
             |> filter(fn: (r) => r["_field"] == "wh")
             |> filter(fn: (r) => r["meter"] == "{name}")
+            |> map(fn: (r) => ({{ r with _unix: uint(v: r._time) / uint(v:1000000000) }}))
         """)
 
         for rec in tables[0].records:
             with open("{0}/{2}-{1}.csv".format(self.root_dir, self.day(), name), "a+") as myfile:
-                myfile.write("{0},{1}\n".format(rec['_time'], rec['_value']))
+                myfile.write("{0},{1}\n".format(rec['_unix'], rec['_value']))
 
